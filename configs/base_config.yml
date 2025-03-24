@@ -139,8 +139,8 @@ metrics:
 ## LOGGING
 ###################
 log_level: 'INFO'
-wandb_entity_name: 'abra'
-wandb_project_name: "topginn"
+wandb_entity_name: 'jcallaham'
+wandb_project_name: "GINN"
 plot:
   fig_size: [12, 7]
   fig_wandb: True

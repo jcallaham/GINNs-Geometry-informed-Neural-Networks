@@ -15,7 +15,7 @@ def read_cli_args_and_get_config():
     arg_dict = cli_args_2_flat_dict(cli_args.kv)
     
     assert 'yml' in arg_dict.keys(), f'fail fast: yml is required to be set via CLI'
-    assert 'gpu_list' in arg_dict.keys(), f'fail fast: gpu_list is required to be set via CLI'
+    # assert 'gpu_list' in arg_dict.keys(), f'fail fast: gpu_list is required to be set via CLI'
         
     base_yml_path = os.path.join("configs", "base_config.yml")
     yml_path = os.path.join("configs", arg_dict['yml'] if arg_dict['yml'].endswith('.yml') else arg_dict['yml'] + '.yml')
@@ -25,7 +25,8 @@ def read_cli_args_and_get_config():
     # # overwrites from direct CLI args
     # config = deep_update(config, arg_dict, print_overwrites=True)
     
-    arg_dict.pop('gpu_list')
+    if 'gpu_list' in arg_dict:
+        arg_dict.pop('gpu_list')
     config['args_str'] = ' '.join(f'{key}={value}' for key, value in arg_dict.items())
 
     return config
@@ -147,7 +148,7 @@ def update_yml_str(yml_str, kvs, indent_spaces=2):
 
 
 def set_cuda_devices(gpu_list):
-    if gpu_list is None or gpu_list == '':
+    if gpu_list is None or gpu_list == '' or gpu_list == []:
         os.environ['CUDA_VISIBLE_DEVICES'] = ''
         print(f'WARNING: No GPUs specified, running on CPU')
         return
